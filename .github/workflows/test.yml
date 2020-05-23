@@ -28,7 +28,7 @@ jobs:
 
     - uses: actions/cache@v1
       with:
-        path: vendor/bundle
+        path: ${{ github.workspace }}/vendor/bundle
         key: ${{ runner.os }}-gem-${{ matrix.ruby-version }}-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys:
           ${{ runner.os }}-gem-${{ matrix.ruby-version }}-
