@@ -1,0 +1,39 @@
+name: Ruby
+
+on:
+  push:
+    branches: [ '*' ]
+  pull_request:
+    branches: [ '*' ]
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ruby-version: [2.3, 2.4, 2.5, 2.6]
+
+    env:
+      BUNDLE_CACHE_ALL: true
+      BUNDLE_CACHE_PATH: ${{ github.workspace }}/vendor/bundle
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby-version }}
+
+    - uses: actions/cache@v1
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gem-${{ matrix.ruby-version }}-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys:
+          ${{ runner.os }}-gem-${{ matrix.ruby-version }}-
+          ${{ runner.os }}-gem-
+
+    - run: bundle install
+
+    - run: bundle exec middleman build
