@@ -15,10 +15,6 @@ jobs:
       matrix:
         ruby-version: [2.3, 2.4, 2.5, 2.6]
 
-    env:
-      BUNDLE_CACHE_ALL: true
-      BUNDLE_CACHE_PATH: ${{ github.workspace }}/vendor/bundle
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby
@@ -28,12 +24,12 @@ jobs:
 
     - uses: actions/cache@v1
       with:
-        path: ${{ github.workspace }}/vendor/bundle
+        path: vendor/bundle
         key: ${{ runner.os }}-gems-${{ matrix.ruby-version }}-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys:
           ${{ runner.os }}-gems-${{ matrix.ruby-version }}-
           ${{ runner.os }}-gems-
 
-    - run: bundle install
+    - run: bundle install --deployment
 
     - run: bundle exec middleman build
