@@ -29,10 +29,10 @@ jobs:
     - uses: actions/cache@v1
       with:
         path: ${{ github.workspace }}/vendor/bundle
-        key: ${{ runner.os }}-gem-${{ matrix.ruby-version }}-${{ hashFiles('**/Gemfile.lock') }}
+        key: ${{ runner.os }}-gems-${{ matrix.ruby-version }}-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys:
-          ${{ runner.os }}-gem-${{ matrix.ruby-version }}-
-          ${{ runner.os }}-gem-
+          ${{ runner.os }}-gems-${{ matrix.ruby-version }}-
+          ${{ runner.os }}-gems-
 
     - run: bundle install
 
